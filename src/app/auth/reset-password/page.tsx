@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import React, { useState } from 'react'
-import { supabase } from '@/lib/supabase/client'
+import { createClient } from '@/lib/supabase/client'
 
 const ResetPassword = () => {
   const [password, setPassword] = useState("")
@@ -23,6 +23,7 @@ const ResetPassword = () => {
       return
     }
     setLoading(true)
+    const supabase = createClient()
     const { error } = await supabase.auth.updateUser({ password })
     setLoading(false)
     if (error) {

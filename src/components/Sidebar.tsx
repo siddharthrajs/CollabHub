@@ -19,7 +19,7 @@ import { createClient } from '@/lib/supabase/client'
 
 const navLinks = [
   { href: '/protected/home', label: 'Home', icon: <Home className="w-4 h-4 mr-2" /> },
-  { href: '/protected/projects', label: 'Projects', icon: <FolderKanban className="w-4 h-4 mr-2" /> },
+  { href: '/protected/my-projects', label: 'My Projects', icon: <FolderKanban className="w-4 h-4 mr-2" /> },
   { href: '/protected/profile', label: 'Profile', icon: <User className="w-4 h-4 mr-2" /> },
 ]
 
@@ -63,10 +63,10 @@ export default function Sidebar() {
 
   return (
     <>
-      {/* Hamburger menu for mobile */}
+      {/* Hamburger menu for mobile - positioned fixed */}
       {!isOpen && (
-        <div className="md:hidden p-2">
-          <Button variant="ghost" size="icon" onClick={() => setIsOpen(true)}>
+        <div className="md:hidden fixed top-4 left-4 z-50">
+          <Button variant="ghost" size="icon" onClick={() => setIsOpen(true)} className="bg-black/80 text-white hover:bg-black/90">
             <Menu className="w-6 h-6" />
           </Button>
         </div>
@@ -74,7 +74,7 @@ export default function Sidebar() {
       {/* Sidebar */}
       <aside
         className={clsx(
-          "fixed inset-y-0 left-0 z-40 w-64 bg-black/90 text-white flex flex-col py-6 px-4 transition-none border box-border",
+          "min-h-screen fixed inset-y-0 left-0 z-40 w-64 bg-black/90 text-white flex flex-col py-6 px-4 transition-none border box-border",
           "md:static md:translate-x-0 md:flex",
           isOpen ? "block" : "hidden",
           "md:block"
@@ -118,12 +118,15 @@ export default function Sidebar() {
 
             </Link>
           ))}
+          <Link href="/protected/create-project">
+          <Button className='w-full' onClick={() => setIsOpen(false)}>+ Create Project</Button>
+          </Link>
         </nav>
         {/* User section at the bottom */}
         <div className="mt-8 flex justify-between items-center gap-3 border rounded-xl p-2">
-          <Avatar>
+          <Avatar className='bg-muted'>
             <AvatarImage src={profile?.avatar_url || ""} alt="User" />
-            <AvatarFallback>U</AvatarFallback>
+            <AvatarFallback>{profile?.name?.slice(0, 2).toUpperCase()}</AvatarFallback>
           </Avatar>
           <div className="flex flex-col">
             <p>{profile?.name}</p>
