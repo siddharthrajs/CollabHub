@@ -4,7 +4,7 @@ import React from 'react'
 
 const ProtectedPage = () => {
   return (
-    <div>
+    <div className='min-h-full flex flex-col gap-6 items-center justify-center'>
       <h1 className='text-4xl'>
         Alright, you&apos;re verified now. Let&apos;s log you in {"->"}
       </h1>
