@@ -90,7 +90,7 @@ export default function Sidebar() {
               width={30}
               height={30}
             />
-            <span className="text-2xl font-bold tracking-tight">ProjectCon</span>
+            <span className="text-2xl font-bold tracking-tight">CollabHub</span>
           </div>
           <Button
             variant="ghost"

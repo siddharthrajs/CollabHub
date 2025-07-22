@@ -12,12 +12,10 @@ import {
   Users, 
   Calendar, 
   Crown, 
-  User, 
   Github, 
   Linkedin, 
   Twitter, 
   Globe,
-  Mail
 } from 'lucide-react'
 import { Project } from '@/types/project'
 import { Profile } from '@/types/profile'
