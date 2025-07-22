@@ -61,3 +61,25 @@ export async function updateProfile(profileData: Partial<Profile>): Promise<bool
     return false
   }
 }
+
+export async function getProfileById(userId: string): Promise<Profile | null> {
+  try {
+    const supabase = createClient()
+    
+    const { data, error } = await supabase
+      .from('profiles')
+      .select('*')
+      .eq('id', userId)
+      .single()
+
+    if (error) {
+      console.error('Error fetching profile by ID:', error)
+      return null
+    }
+
+    return data as Profile
+  } catch (error) {
+    console.error('Unexpected error fetching profile by ID:', error)
+    return null
+  }
+}

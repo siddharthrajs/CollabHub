@@ -3,11 +3,9 @@
 import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
 import { getUserProjectsWithRole, leaveProject } from '@/lib/supabase/projects'
 import { Project } from '@/types/project'
-import { Eye, LogOut, Users, Calendar, Crown, User } from 'lucide-react'
+import ProjectCard from '@/components/ProjectCard'
 
 type ProjectWithRole = Project & { userRole: 'leader' | 'member' }
 
@@ -133,110 +131,15 @@ const ProjectsPage = () => {
           </p>
         </div>
 
-        <div className="flex gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {projects.map((project) => (
-            <Card key={project.id} className=" hover:shadow-md transition-shadow">
-              <CardHeader>
-                <div className="flex items-start justify-between">
-                  <div className="flex-1">
-                    <CardTitle className="text-lg mb-2 line-clamp-2">
-                      {project.title}
-                    </CardTitle>
-                    <div className="flex items-center gap-2 mb-2">
-                      {project.userRole === 'leader' ? (
-                        <Badge variant="default" className="flex items-center gap-1">
-                          <Crown className="w-3 h-3" />
-                          Leader
-                        </Badge>
-                      ) : (
-                        <Badge variant="secondary" className="flex items-center gap-1">
-                          <User className="w-3 h-3" />
-                          Member
-                        </Badge>
-                      )}
-                    </div>
-                  </div>
-                </div>
-                <CardDescription className="line-clamp-3">
-                  {project.description}
-                </CardDescription>
-              </CardHeader>
-
-              <CardContent className="w-sm flex flex-col justify-between space-y-4">
-                {/* Project Tags */}
-                {project.tags && project.tags.length > 0 && (
-                  <div className="flex flex-wrap gap-1">
-                    {project.tags.slice(0, 3).map((tag, index) => (
-                      <Badge key={index} variant="outline" className="text-xs">
-                        {tag}
-                      </Badge>
-                    ))}
-                    {project.tags.length > 3 && (
-                      <Badge variant="outline" className="text-xs">
-                        +{project.tags.length - 3} more
-                      </Badge>
-                    )}
-                  </div>
-                )}
-
-                {/* Project Info */}
-                <div className="flex items-center justify-between text-sm text-muted-foreground">
-                  <div className="flex items-center gap-1">
-                    <Users className="w-4 h-4" />
-                    <span>Max {project.max_team_size}</span>
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <Calendar className="w-4 h-4" />
-                    <span>{formatDate(project.created_at)}</span>
-                  </div>
-                </div>
-
-                {/* Looking For */}
-                {project.looking_for.length > 0 && (
-                  <div>
-                    <div className="text-sm font-medium mb-2">Looking for:</div>
-                    <div className="flex flex-wrap gap-1">
-                      {project.looking_for.slice(0, 2).map((role, index) => (
-                        <Badge key={index} variant="secondary" className="text-xs">
-                          {role}
-                        </Badge>
-                      ))}
-                      {project.looking_for.length > 2 && (
-                        <Badge variant="secondary" className="text-xs">
-                          +{project.looking_for.length - 2} more
-                        </Badge>
-                      )}
-                    </div>
-                  </div>
-                )}
-
-                {/* Action Buttons */}
-                <div className="flex gap-2 pt-2">
-                  <Button
-                    onClick={() => handleViewProject(project.id)}
-                    variant="outline"
-                    size="sm"
-                    className="flex-1"
-                  >
-                    <Eye className="w-4 h-4 mr-1" />
-                    View Project
-                  </Button>
-                  
-                  {project.userRole === 'member' && (
-                    <Button
-                      onClick={() => handleLeaveProject(project.id)}
-                      variant="destructive"
-                      size="sm"
-                      disabled={leavingProject === project.id}
-                      className="flex-1"
-                    >
-                      <LogOut className="w-4 h-4 mr-1" />
-                      {leavingProject === project.id ? 'Leaving...' : 'Leave'}
-                    </Button>
-                  )}
-                </div>
-              </CardContent>
-            </Card>
+            <ProjectCard
+              key={project.id}
+              project={project}
+              onViewProject={handleViewProject}
+              onLeaveProject={handleLeaveProject}
+              leavingProject={leavingProject}
+            />
           ))}
         </div>
       </div>

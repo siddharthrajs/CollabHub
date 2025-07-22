@@ -16,3 +16,18 @@ create table public.projects (
     )
   )
 ) TABLESPACE pg_default;
+-- Enable Row Level Security
+alter table public.projects enable row level security;
+
+-- Policies for Projects
+-- Allow authenticated users to view all projects
+create policy "Allow users to view all projects" on public.projects
+  for select using (auth.role() = 'authenticated');
+
+-- Allow users to insert projects for themselves
+create policy "Allow users to insert own projects" on public.projects
+  for insert with check (auth.uid() = leader);
+
+-- Allow project leaders to update their own projects
+create policy "Allow leaders to update own projects" on public.projects
+  for update using (auth.uid() = leader);

@@ -8,6 +8,7 @@ import {
   User,
   Menu,
   X,
+  Bell,
 } from 'lucide-react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
@@ -20,6 +21,7 @@ import { createClient } from '@/lib/supabase/client'
 const navLinks = [
   { href: '/protected/home', label: 'Home', icon: <Home className="w-4 h-4 mr-2" /> },
   { href: '/protected/my-projects', label: 'My Projects', icon: <FolderKanban className="w-4 h-4 mr-2" /> },
+  { href: '/protected/notifications', label: 'Notifications', icon: <Bell className="w-4 h-4 mr-2" /> },
   { href: '/protected/profile', label: 'Profile', icon: <User className="w-4 h-4 mr-2" /> },
 ]
 
